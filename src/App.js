@@ -1,14 +1,17 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import GridLayout from './GridLayout.js';
-import GetSQL from './GetSQL.js';
+import SelectPage from './SelectPage';
+
 
 function App() {
   return (
     <div className="App">
-        <h1>CS340 HTML DB Assignment</h1>
-        <GetSQL />
-        <GridLayout />
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<SelectPage />} />
+            </Routes>
+        </BrowserRouter>
+
     </div>
   );
 }
