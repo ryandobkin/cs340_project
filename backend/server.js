@@ -3,7 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 8500;
+const PORT = process.env.PORT || 34798;
 
 // Middleware:
 
@@ -14,24 +14,30 @@ app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json());
 
 // API Routes for backend CRUD:
+app.use("/api/Customers", require("./routes/CustomersRoutes"));
+app.use("/api/CustomerProducts", require("./routes/CustomerProductsRoutes"));
+app.use("/api/Transactions", require("./routes/TransactionsRoutes"));
+app.use("/api/TransactionDetails", require("./routes/TransactionDetailsRoutes"));
+app.use("/api/Products", require("./routes/ProductsRoutes"));
+app.use("/api/Memberships", require("./routes/MembershipsRoutes"));
 app.use("/api/people", require("./routes/peopleRoutes"));
+
 
 
 // Add your Connect DB Activitiy Code Below:
 // ...
 
-// Match to your database config route
 const db = require('./database/config.js');
 
 // define a new GET request with express:
-// ...
 app.get('/api/diagnostic', async (req, res) => {
   try {
     // Await your database queries here
     await db.pool.query('DROP TABLE IF EXISTS diagnostic;');
     await db.pool.query('CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);');
     await db.pool.query('INSERT INTO diagnostic (text) VALUES ("MySQL is working!")');
-    const results = await db.pool.query('SELECT * FROM diagnostic;');
+
+    const [results] = await db.pool.query('SELECT * FROM diagnostic;');
 
     // res.json() automatically stringifies the JavaScript object to JSON
     res.json(results);
