@@ -1,7 +1,8 @@
 import { Routes, Route, Link } from "react-router-dom";
-import CreateTransaction from "../components/Transactions/CreateTransaction";
-import TransactionTable from "../components/Transactions/TransactionTable";
-import UpdateTransaction from "../components/Transactions/UpdateTransaction";
+import CreateEntity from "../components/reusable_comps/CreateEntity";
+import EntityTable from "../components/reusable_comps/EntityTable";
+import TableRow from "../components/reusable_comps/TableRow";
+import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 
 function TransactionsPage() {
   return (
@@ -18,9 +19,28 @@ function TransactionsPage() {
         </ul>
       </nav>
       <Routes>
-        <Route path="/" element={<TransactionTable />} />
-        <Route path="/add" element={<CreateTransaction />} />
-        <Route path="/edit/:id" element={<UpdateTransaction />} />
+        <Route path="/add" element={
+          <CreateEntity
+            fields={["transactID", "customerID", "transactDate", "transactTotal"]}
+            labels={["Transaction ID", "Customer ID", "Transaction Date", "Transaction Total"]}
+            formTitle="Create Transactions"
+            endpoint="Transactions"
+        />}/>
+        <Route path="/" element={
+          <EntityTable 
+            columns={["transactID", "customerID", "transactDate", "transactTotal"]}
+            labels={["Transaction ID", "Customer ID", "Transaction Date", "Transaction Total"]}
+            RowComponent={TableRow}
+            endpoint="Transactions"
+            entityName="Transactions"
+          />
+        }/>
+        <Route path="/edit/:id" element={
+          <UpdateEntity
+            entityName="Transactions"
+            fields={["transactID", "customerID", "transactDate", "transactTotal"]}
+            redirectPath="/Transactions"
+        />}/>
       </Routes>
     </div>
   );

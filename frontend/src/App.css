@@ -8,3 +8,185 @@ html {
 html li {
   list-style-type: none;
 }
+
+.bg {
+  background-color:rgb(255, 255, 255);
+}
+
+.table-row {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-cell {
+  padding: 8px;
+  font-size: 14px;
+  border-right: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+
+.edit-btn, .delete-btn {
+  cursor: pointer;
+  padding: 5px;
+  color: #007BFF;
+  transition: color 0.3s;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  color: #0056b3;
+}
+
+.table-container {
+  margin: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.entity-table th {
+  padding: 12px 15px;
+  text-align: left;
+  background-color: #f2f2f2;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.entity-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.edit-btn, .delete-btn {
+  cursor: pointer;
+  padding: 5px;
+  color: #007BFF;
+  transition: color 0.3s;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  color: #0056b3;
+}
+
+.empty-table-icon {
+  margin-top: 20px;
+  color: #ccc;
+}
+
+.form-container {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+}
+
+.form-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-field input {
+  width: 80%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.form-button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+}
+
+.update-form-container {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+}
+
+.update-form-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.update-form-field {
+  margin-bottom: 15px;
+}
+
+.update-form-field label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.update-form-field input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.cancel-button {
+  padding: 10px 20px;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #888;
+}
+
+.update-form-button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+.update-form-button:hover {
+  background-color: #0056b3;
+}

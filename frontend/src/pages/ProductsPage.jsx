@@ -1,7 +1,8 @@
 import { Routes, Route, Link } from "react-router-dom";
-import CreateProduct from "../components/Products/CreateProduct";
-import ProductTable from "../components/Products/ProductTable";
-import UpdateProduct from "../components/Products/UpdateProduct";
+import CreateEntity from "../components/reusable_comps/CreateEntity";
+import EntityTable from "../components/reusable_comps/EntityTable";
+import TableRow from "../components/reusable_comps/TableRow";
+import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 
 function ProductsPage() {
   return (
@@ -17,10 +18,30 @@ function ProductsPage() {
           </li>
         </ul>
       </nav>
+
       <Routes>
-        <Route path="/" element={<ProductTable />} />
-        <Route path="/add" element={<CreateProduct />} />
-        <Route path="/edit/:id" element={<UpdateProduct />} />
+        <Route path="/add" element={
+          <CreateEntity
+            fields={["productID", "productName", "productPrice", "productCost"]}
+            labels={["Product ID", "Product Name", "Product Price", "Product Cost"]}
+            formTitle="Create Membership"
+            endpoint="Products"
+        />}/>
+        <Route path="/" element={
+          <EntityTable 
+            columns={["productID", "productName", "productPrice", "productCost"]}
+            labels={["Product ID", "Product Name", "Product Price", "Product Cost"]}
+            RowComponent={TableRow}
+            endpoint="Products"
+            entityName="Products"
+          />
+        }/>
+        <Route path="/edit/:id" element={
+          <UpdateEntity
+            entityName="Products"
+            fields={["productID", "productName", "productPrice", "productCost"]}
+            redirectPath="/Products"
+        />}/>
       </Routes>
     </div>
   );

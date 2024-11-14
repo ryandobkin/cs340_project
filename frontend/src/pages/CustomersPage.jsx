@@ -1,7 +1,8 @@
 import { Routes, Route, Link } from "react-router-dom";
-import CreateCustomer from "../components/Customers/CreateCustomer";
-import CustomerTable from "../components/Customers/CustomerTable";
-import UpdateCustomer from "../components/Customers/UpdateCustomer";
+import CreateEntity from "../components/reusable_comps/CreateEntity";
+import EntityTable from "../components/reusable_comps/EntityTable";
+import TableRow from "../components/reusable_comps/TableRow";
+import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 
 function CustomersPage() {
   return (
@@ -18,9 +19,28 @@ function CustomersPage() {
         </ul>
       </nav>
       <Routes>
-        <Route path="/" element={<CustomerTable />} />
-        <Route path="/add" element={<CreateCustomer />} />
-        <Route path="/edit/:id" element={<UpdateCustomer />} />
+        <Route path="/add" element={
+          <CreateEntity
+            fields={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
+            labels={["Customer ID", "Membership ID", "Name", "Email", "Gender", "Mailing Address", "Billing Address", "City", "State", "Area Code"]}
+            formTitle="Create Customer"
+            endpoint="Customers"
+        />}/>
+        <Route path="/" element={
+          <EntityTable 
+            columns={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
+            labels={["Customer ID", "Membership ID", "Name", "Email", "Gender", "Mailing Address", "Billing Address", "City", "State", "Area Code"]}
+            RowComponent={TableRow}
+            endpoint="Customers"
+            entityName="Customers"
+          />
+        }/>
+        <Route path="/edit/:id" element={
+          <UpdateEntity
+            entityName="Customers"
+            fields={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
+            redirectPath="/Customers"
+        />}/>
       </Routes>
     </div>
   );

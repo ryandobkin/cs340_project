@@ -1,7 +1,8 @@
 import { Routes, Route, Link } from "react-router-dom";
-import CreateTransactionDetail from "../components/TransactionDetails/CreateTransactionDetail";
-import TransactionDetailTable from "../components/TransactionDetails/TransactionDetailTable";
-import UpdateTransactionDetail from "../components/TransactionDetails/UpdateTransactionDetail";
+import CreateEntity from "../components/reusable_comps/CreateEntity";
+import EntityTable from "../components/reusable_comps/EntityTable";
+import TableRow from "../components/reusable_comps/TableRow";
+import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 
 function TransactionDetailsPage() {
   return (
@@ -18,9 +19,28 @@ function TransactionDetailsPage() {
         </ul>
       </nav>
       <Routes>
-        <Route path="/" element={<TransactionDetailTable />} />
-        <Route path="/add" element={<CreateTransactionDetail />} />
-        <Route path="/edit/:id" element={<UpdateTransactionDetail />} />
+        <Route path="/add" element={
+          <CreateEntity
+            fields={["transactDetailsID", "transactID", "productID", "membershipID", "unitPrice", "orderQty", "orderTotal"]}
+            labels={["Transact Details ID", "Transact ID", "Product ID", "Membership ID", "Unit Price", "Order Quantity", "Order Total"]}
+            formTitle="Create Customer"
+            endpoint="Customers"
+        />}/>
+        <Route path="/" element={
+          <EntityTable 
+            columns={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
+            labels={["Customer ID", "Membership ID", "Name", "Email", "Gender", "Mailing Address", "Billing Address", "City", "State", "Area Code"]}
+            RowComponent={TableRow}
+            endpoint="Customers"
+            entityName="Customers"
+          />
+        }/>
+        <Route path="/edit/:id" element={
+          <UpdateEntity
+            entityName="Customers"
+            fields={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
+            redirectPath="/Customers"
+        />}/>
       </Routes>
     </div>
   );

@@ -1,7 +1,8 @@
 import { Routes, Route, Link } from "react-router-dom";
-import CreateMembership from "../components/Memberships/CreateMembership";
-import MembershipTable from "../components/Memberships/MembershipTable";
-import UpdateMembership from "../components/Memberships/UpdateMembership";
+import CreateEntity from "../components/reusable_comps/CreateEntity";
+import EntityTable from "../components/reusable_comps/EntityTable";
+import TableRow from "../components/reusable_comps/TableRow";
+import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 
 function MembershipsPage() {
   return (
@@ -17,10 +18,30 @@ function MembershipsPage() {
           </li>
         </ul>
       </nav>
+
       <Routes>
-        <Route path="/" element={<MembershipTable />} />
-        <Route path="/add" element={<CreateMembership />} />
-        <Route path="/edit/:id" element={<UpdateMembership />} />
+        <Route path="/add" element={
+          <CreateEntity
+            fields={["membershipID", "membershipPrice", "renewPeriod", "gymAccess"]}
+            labels={["Membership ID", "Membership Price", "Renew Period", "Gym Access"]}
+            formTitle="Create Membership"
+            endpoint="Memberships"
+        />}/>
+        <Route path="/" element={
+          <EntityTable 
+            columns={["membershipID", "membershipPrice", "renewPeriod", "gymAccess"]}
+            labels={["Membership ID", "Membership Price", "Renew Period", "Gym Access"]}
+            RowComponent={TableRow}
+            endpoint="Memberships"
+            entityName="Memberships"
+          />
+        }/>
+        <Route path="/edit/:id" element={
+          <UpdateEntity
+            entityName="Memberships"
+            fields={["membershipID", "membershipPrice", "renewPeriod", "gymAccess"]}
+            redirectPath="/Memberships"
+        />}/>
       </Routes>
     </div>
   );
