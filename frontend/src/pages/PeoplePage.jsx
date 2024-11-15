@@ -7,7 +7,7 @@ function PeoplePage() {
   return (
     <div>
       <h1>BSG People Page</h1>
-      <nav>
+      <nav className="page-links">
         <ul>
           <li>
             <Link to="/people">BSG People Table</Link>

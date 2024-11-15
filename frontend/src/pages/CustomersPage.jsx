@@ -7,8 +7,8 @@ import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 function CustomersPage() {
   return (
     <div>
-      <h1>Customers Page</h1>
-      <nav>
+      <h1 className="page-header">Customers Page</h1>
+      <nav className="page-links">
         <ul>
           <li>
             <Link to="/customers">Customers Table</Link>

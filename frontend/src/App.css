@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
 html {
   display: flex;
   justify-content: center;
@@ -9,19 +12,15 @@ html li {
   list-style-type: none;
 }
 
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.page-container {
+  width: 80%;
+  align-items: center;
+}
 
 .Navbar {
   font-family: "Kanit", sans-serif;
   font-weight: 500;
   font-style: bold;
-}
-
-.home-page {
-  width: 80%;
-  display: inline-block;
-  background-color: black;
 }
 
 .nav-nav {
@@ -86,19 +85,24 @@ html li {
 }
 
 .table-container {
-  margin: 20px;
+  margin: 20px auto; 
   padding: 10px;
   background-color: #eeeeee;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: grid;
+  width: 100%;
+  font-family: "Kanit", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
 }
+
 
 .entity-table th {
   padding: 12px 15px;
   text-align: left;
   background-color: #f2f2f2;
   font-size: 16px;
-  font-weight: bold;
 }
 
 .entity-table td {
@@ -132,7 +136,7 @@ html li {
   max-width: 600px;
   font-family: "Kanit", sans-serif;
   font-weight: 400;
-  font-style: bold;
+  font-style: normal;
   font-size: 20px;
 }
 
@@ -140,6 +144,7 @@ html li {
   font-size: 24px;
   text-align: center;
   margin-bottom: 20px;
+  font-style: bold;
 }
 
 .form-field {
@@ -149,7 +154,6 @@ html li {
 .form-field label {
   display: block;
   font-size: 16px;
-  font-weight: bold;
   margin-bottom: 5px;
 }
 
@@ -183,8 +187,11 @@ html li {
   background-color: #f4f4f4;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 80%;
   max-width: 600px;
+  font-family: "Kanit", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 20px;
 }
 
 .update-form-title {
@@ -200,12 +207,11 @@ html li {
 .update-form-field label {
   display: block;
   font-size: 16px;
-  font-weight: bold;
   margin-bottom: 5px;
 }
 
 .update-form-field input {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   font-size: 14px;
   border-radius: 4px;
@@ -241,4 +247,45 @@ html li {
 
 .update-form-button:hover {
   background-color: #0056b3;
+}
+
+.page-links {
+  display: flex;
+  justify-content: center; 
+}
+
+.page-links ul {
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+  display: flex; 
+  gap: 20px; 
+  justify-content: center; 
+}
+
+.page-links a {
+  text-decoration: none; 
+  font-family: "Kanit", sans-serif; 
+  font-size: 18px; 
+  color: #333; 
+  border-radius: 5px; 
+  padding: 5px 10px; 
+}
+
+.page-links a:hover {
+  background-color: rgb(0, 30, 56); 
+  color: #fff; 
+}
+
+.page-header {
+  font-family: "Kanit", sans-serif; 
+  font-size: 28px; 
+  font-style: bold;
+  font-weight: 400;
+}
+
+.home-page {
+  font-family: "Kanit", sans-serif; 
+  font-size: 16px; 
+  font-weight: 300;
 }

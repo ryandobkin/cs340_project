@@ -39,11 +39,14 @@ function HomePage() {
 
   // display the content and anything else
   return (
-    <div>
+    <div class="home-page">
      <h2>Diagnostic Data</h2>
       {content}
      <h2>Overview</h2>
-     <p>At Rocket Fitness, we need a database to help us manage our members and their memberships. We have 10,000 members across our 15 locations, and each member pays roughly $45 per month for their membership. Members pay for their memberships either monthly, quarterly, or annually. We also sell food and drinks geared towards fitness, as well as retail items like water bottles and protein powder. We are looking to better use our member base to extrapolate useful information, such as what types of machines they want, what makes them sign up for our more expensive memberships, and how we can grow our member count. In addition, we also need a DB for the base functionality of storing our user information in an organized and efficient way.</p>
+     <p>At Rocket Fitness, we need a database to help us manage our members and their memberships. We have 10,000 members across our 15 locations, and each member pays roughly $45 per month for their membership.</p>
+     <p> Members pay for their memberships either monthly, quarterly, or annually. We also sell food and drinks geared towards fitness, as well as retail items like water bottles and protein powder.</p>
+     <p>We are looking to better use our member base to extrapolate useful information, such as what types of machines they want, what makes them sign up for our more expensive memberships, and how we can grow our member count.</p>
+     <p>In addition, we also need a DB for the base functionality of storing our user information in an organized and efficient way.</p>
     </div>
   );
 }

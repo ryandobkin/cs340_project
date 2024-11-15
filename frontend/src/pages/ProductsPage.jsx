@@ -7,8 +7,8 @@ import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 function ProductsPage() {
   return (
     <div>
-      <h1>Products Page</h1>
-      <nav>
+      <h1 className="page-header">Products Page</h1>
+      <nav className="page-links">
         <ul>
           <li>
             <Link to="/products">Products Table</Link>
