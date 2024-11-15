@@ -1,3 +1,6 @@
+const t_name = 'Transactions';
+const t_id = 'transactID';
+
 // Load db config
 const db = require("../database/config.js");
 // Load .env variables
@@ -9,7 +12,7 @@ const lodash = require("lodash");
 const getTransactions = async (req, res) => {
   try {
     // Select all rows from the "transactions" table
-    const query = "SELECT * FROM Transactions";
+    const query = `SELECT * FROM ${t_name}`;
     // Execute the query using the "db" object from the configuration file
     const [rows] = await db.pool.query(query);
     // Send back the rows to the client
@@ -23,9 +26,9 @@ const getTransactions = async (req, res) => {
 // Returns a single person by their unique ID from transactions
 const getTransactionByID = async (req, res) => {
   try {
-    const transactionID = req.params.id;
-    const query = "SELECT * FROM Transactions WHERE id = ?";
-    const [result] = await db.pool.query(query, [transactionID]);
+    const transactID = req.params.id;
+    const query = `SELECT * FROM ${t_name} WHERE ${t_id} = ?`;
+    const [result] = await db.pool.query(query, [transactID]);
     // Check if transaction was found
     if (result.length === 0) {
       return res.status(404).json({ error: "Transaction not found" });
@@ -41,12 +44,12 @@ const getTransactionByID = async (req, res) => {
 // Returns status of creation of new person in transaction
 const createTransaction = async (req, res) => {
   try {
-    const { transactionID, customerID, transactDate, transactTotal } = req.body;
+    const { transactID, customerID, transactDate, transactTotal } = req.body;
     const query =
-      "INSERT INTO transactions (transactionID, customerID, transactDate, transactTotal) VALUES (?, ?, ?, ?)";
+      `INSERT INTO ${t_name} (transactID, customerID, transactDate, transactTotal) VALUES (?, ?, ?, ?)`;
 
     const response = await db.pool.query(query, [
-      transactionID,
+      transactID,
       customerID,
       transactDate,
       transactTotal,
@@ -63,13 +66,13 @@ const createTransaction = async (req, res) => {
 
 const updateTransaction = async (req, res) => {
   // Get the transaction ID
-  const transactionID = req.params.id;
+  const transactID = req.params.id;
   // Get the transaction object
   const newTransaction = req.body;
 
   try {
-    const [data] = await db.pool.query("SELECT * FROM Transactions WHERE id = ?", [
-      transactionID,
+    const [data] = await db.pool.query(`SELECT * FROM ${t_name} WHERE ${t_id} = ?`, [
+      transactID,
     ]);
 
     const oldTransaction = data[0];
@@ -77,18 +80,17 @@ const updateTransaction = async (req, res) => {
     // If any attributes are not equal, perform update
     if (!lodash.isEqual(newTransaction, oldTransaction)) {
       const query =
-        "UPDATE transactions SET transactionID=?, customerID=?, transactDate=?, transactTotal=?";
+       `UPDATE ${t_name} SET transactID=?, customerID=?, transactDate=?, transactTotal=? WHERE ${t_id} = ?`;
 
       // Homeoworld is NULL-able FK in people, has to be valid INT FK ID or NULL
       const cID = newTransaction.customerID === "" ? null : newTransaction.customerID;
 
       const values = [
-        newTransaction.transactionID,
-        newTransaction.customerID,
+        newTransaction.transactID,
+        cID,
         newTransaction.transactDate,
         newTransaction.transactTotal,
-        cID,
-        transactionID
+        transactID
       ];
 
       // Perform the update
@@ -102,20 +104,20 @@ const updateTransaction = async (req, res) => {
     console.log("Error updating transaction", error);
     res
       .status(500)
-      .json({ error: `Error updating the transaction with id ${transactionID}` });
+      .json({ error: `Error updating the transaction with id ${transactID}` });
   }
 };
 
 // Endpoint to delete a customer from the database
 const deleteTransaction = async (req, res) => {
   console.log("Deleting transaction with id:", req.params.id);
-  const transactionID = req.params.id;
+  const transactID = req.params.id;
 
   try {
     // Ensure the person exitst
     const [isExisting] = await db.pool.query(
-      "SELECT 1 FROM Transactions WHERE id = ?",
-      [transactionID]
+      `SELECT 1 FROM ${t_name} WHERE ${t_id} = ?`,
+      [transactID]
     );
 
     // If the person doesn't exist, return an error
@@ -126,7 +128,7 @@ const deleteTransaction = async (req, res) => {
     // Delete related records from the intersection table (see FK contraints cert_transactions)
     const [response] = await db.pool.query(
       "DELETE FROM cert_transactions WHERE pid = ?",
-      [transactionID]
+      [transactID]
     );
 
     console.log(
@@ -136,7 +138,7 @@ const deleteTransaction = async (req, res) => {
     );
 */
     // Delete the person from transactions
-    await db.pool.query("DELETE FROM Transactions WHERE id = ?", [transactionID]);
+    await db.pool.query(`DELETE FROM ${t_name} WHERE ${t_id} = ?`, [transactID]);
 
     // Return the appropriate status code
     res.status(204).json({ message: "Person deleted successfully" })

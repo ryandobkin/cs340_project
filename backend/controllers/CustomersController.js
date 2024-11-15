@@ -1,3 +1,6 @@
+const t_name = 'Customers';
+const t_id = 'customerID';
+
 // Load db config
 const db = require("../database/config.js");
 // Load .env variables
@@ -9,7 +12,7 @@ const lodash = require("lodash");
 const getCustomers = async (req, res) => {
   try {
     // Select all rows from the "customers" table
-    const query = "SELECT * FROM Customers";
+    const query = `SELECT * FROM ${t_name}`;
     // Execute the query using the "db" object from the configuration file
     const [rows] = await db.pool.query(query);
     // Send back the rows to the client
@@ -24,7 +27,7 @@ const getCustomers = async (req, res) => {
 const getCustomerByID = async (req, res) => {
   try {
     const customerID = req.params.id;
-    const query = "SELECT * FROM Customers WHERE id = ?";
+    const query = `SELECT * FROM ${t_name} WHERE ${t_id} = ?`;
     const [result] = await db.pool.query(query, [customerID]);
     // Check if customer was found
     if (result.length === 0) {
@@ -41,15 +44,17 @@ const getCustomerByID = async (req, res) => {
 // Returns status of creation of new person in customer
 const createCustomer = async (req, res) => {
   try {
-    const { customerID, membershipID, customerName, customerEmail, gender, mailAddr, billAddr, city, state, areaCode } = req.body;
+    const { customerID, membershipID, name, email, gender, mailAddr, billAddr, city, state, areaCode } = req.body;
     const query =
-      "INSERT INTO customers (customerID, membershipID, customerName, customerEmail, gender, mailAddr, billAddr, city, state, areaCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      `INSERT INTO ${t_name} ( customerID, membershipID, name, email, 
+      gender, mailAddr, billAddr, city, state, areaCode ) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const response = await db.pool.query(query, [
       customerID,
       membershipID,
-      customerName,
-      customerEmail,
+      name,
+      email,
       gender,
       mailAddr,
       billAddr,
@@ -74,7 +79,7 @@ const updateCustomer = async (req, res) => {
   const newCustomer = req.body;
 
   try {
-    const [data] = await db.pool.query("SELECT * FROM Customers WHERE id = ?", [
+    const [data] = await db.pool.query(`SELECT * FROM ${t_name} WHERE ${t_id} = ?`, [
       customerID,
     ]);
 
@@ -83,16 +88,16 @@ const updateCustomer = async (req, res) => {
     // If any attributes are not equal, perform update
     if (!lodash.isEqual(newCustomer, oldCustomer)) {
       const query =
-        "UPDATE customers SET customerID=?, membershipID=?, customerName=?, customerEmail=?, gender=?, mailAddr=?, billAddr=?, city=?, state=?, areaCode=?";
+        `UPDATE ${t_name} SET customerID=?, membershipID=?, name=?, email=?, gender=?, mailAddr=?, billAddr=?, city=?, state=?, areaCode=? WHERE ${t_id}=?`;
 
       // Homeoworld is NULL-able FK in people, has to be valid INT FK ID or NULL
       const mID = newCustomer.membershipID === "" ? null : newCustomer.membershipID;
 
       const values = [
         newCustomer.customerID,
-        newCustomer.membershipID,
-        newCustomer.customerName,
-        newCustomer.customerEmail,
+        mID,
+        newCustomer.name,
+        newCustomer.email,
         newCustomer.gender,
         newCustomer.mailAddr,
         newCustomer.billAddr,
@@ -113,7 +118,8 @@ const updateCustomer = async (req, res) => {
     console.log("Error updating customer", error);
     res
       .status(500)
-      .json({ error: `Error updating the customer with id ${customerID}` });
+      .json({ error: `Error updating the customer with id ${customerID}.`,
+              sqlMessage: `sqlMessage: ${error.sqlMessage}}` });
   }
 };
 
@@ -125,7 +131,7 @@ const deleteCustomer = async (req, res) => {
   try {
     // Ensure the person exitst
     const [isExisting] = await db.pool.query(
-      "SELECT 1 FROM Customers WHERE id = ?",
+      `SELECT 1 FROM ${t_name} WHERE ${t_id} = ?`,
       [customerID]
     );
 
@@ -147,7 +153,7 @@ const deleteCustomer = async (req, res) => {
     );
 */
     // Delete the person from customers
-    await db.pool.query("DELETE FROM Customers WHERE id = ?", [customerID]);
+    await db.pool.query(`DELETE FROM ${t_name} WHERE ${t_id} = ?`, [customerID]);
 
     // Return the appropriate status code
     res.status(204).json({ message: "Person deleted successfully" })

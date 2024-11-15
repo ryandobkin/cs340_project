@@ -42,11 +42,12 @@ const UpdateEntity = ({ entityName, fields, redirectPath, entityId }) => {
     event.preventDefault();
     // Check if formData is equal to prevTransactionDetails
     if (isUpdate()){
+      //console.log("prevEntities[entityId]", prevEntities, "entityId", entityId);
       try {
         const URL = import.meta.env.VITE_API_URL + `${entityName}/${prevEntities[entityId]}`;
         const response = await axios.put(URL, formData);
         if (response.status !== 200) {
-          alert(`Error updating ${entityName}`);
+          alert(`Error updating ${entityName}: ${response.data.error}`);
         } else {
           alert(response.data.message || `${entityName} updated successfully`);
           // Redirect to transactionDetails page
@@ -54,6 +55,9 @@ const UpdateEntity = ({ entityName, fields, redirectPath, entityId }) => {
         }
       } catch (err) {
         console.log(`Error updating ${entityName}:`, err);
+        console.log(`%cSQL Error Message: ${err.response.data.sqlMessage}`, "color:yellow;font-size:16px;");
+        //console.log(`TEST ERROR:`, err.response.data.error);
+        alert(`Error: ${err.response.data.error}\nPlease check console for more info.`);
       }
     }
   };

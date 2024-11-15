@@ -1,3 +1,7 @@
+const t_name = 'Memberships';
+const t_id = 'membershipID';
+
+
 // Load db config
 const db = require("../database/config.js");
 // Load .env variables
@@ -9,7 +13,7 @@ const lodash = require("lodash");
 const getMemberships = async (req, res) => {
   try {
     // Select all rows from the "memberships" table
-    const query = "SELECT * FROM Memberships";
+    const query = `SELECT * FROM ${t_name}`;
     // Execute the query using the "db" object from the configuration file
     const [rows] = await db.pool.query(query);
     // Send back the rows to the client
@@ -24,7 +28,7 @@ const getMemberships = async (req, res) => {
 const getMembershipByID = async (req, res) => {
   try {
     const membershipID = req.params.id;
-    const query = "SELECT * FROM Memberships WHERE id = ?";
+    const query = `SELECT * FROM ${t_name} WHERE ${t_id} = ?`;
     const [result] = await db.pool.query(query, [membershipID]);
     // Check if membership was found
     if (result.length === 0) {
@@ -43,7 +47,7 @@ const createMembership = async (req, res) => {
   try {
     const { membershipID, membershipPrice, renewPeriod, gymAccess } = req.body;
     const query =
-      "INSERT INTO memberships (membershipID, membershipPrice, renewPeriod, gymAccess) VALUES (?, ?, ?, ?)";
+      `INSERT INTO ${t_name} (membershipID, membershipPrice, renewPeriod, gymAccess) VALUES (?, ?, ?, ?)`;
 
     const response = await db.pool.query(query, [
       membershipID,
@@ -68,7 +72,7 @@ const updateMembership = async (req, res) => {
   const newMembership = req.body;
 
   try {
-    const [data] = await db.pool.query("SELECT * FROM Memberships WHERE id = ?", [
+    const [data] = await db.pool.query(`SELECT * FROM ${t_name} WHERE ${t_id} = ?`, [
       membershipID,
     ]);
 
@@ -77,7 +81,7 @@ const updateMembership = async (req, res) => {
     // If any attributes are not equal, perform update
     if (!lodash.isEqual(newMembership, oldMembership)) {
       const query =
-        "UPDATE memberships SET membershipID=?, membershipPrice=?, renewPeriod=?, gymAccess=?";
+        `UPDATE ${t_name} SET membershipID=?, membershipPrice=?, renewPeriod=?, gymAccess=? WHERE ${t_id} = ?`;
 
       // Homeoworld is NULL-able FK in people, has to be valid INT FK ID or NULL
       //const hw = newMembership.homeworld === "" ? null : newPerson.homeworld;
@@ -113,7 +117,7 @@ const deleteMembership = async (req, res) => {
   try {
     // Ensure the person exitst
     const [isExisting] = await db.pool.query(
-      "SELECT 1 FROM Memberships WHERE id = ?",
+      `SELECT 1 FROM ${t_name} WHERE ${t_id} = ?`,
       [membershipID]
     );
 
@@ -135,7 +139,7 @@ const deleteMembership = async (req, res) => {
     );
 */
     // Delete the person from memberships
-    await db.pool.query("DELETE FROM Memberships WHERE id = ?", [membershipID]);
+    await db.pool.query(`DELETE FROM ${t_name} WHERE ${t_id} = ?`, [membershipID]);
 
     // Return the appropriate status code
     res.status(204).json({ message: "Person deleted successfully" })

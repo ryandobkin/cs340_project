@@ -18,7 +18,6 @@ function MembershipsPage() {
           </li>
         </ul>
       </nav>
-
       <Routes>
         <Route path="/add" element={
           <CreateEntity
@@ -34,6 +33,7 @@ function MembershipsPage() {
             RowComponent={TableRow}
             endpoint="Memberships"
             entityName="Memberships"
+            entityId="membershipID"
           />
         }/>
         <Route path="/edit/:id" element={
@@ -41,6 +41,7 @@ function MembershipsPage() {
             entityName="Memberships"
             fields={["membershipID", "membershipPrice", "renewPeriod", "gymAccess"]}
             redirectPath="/Memberships"
+            entityId="membershipID"
         />}/>
       </Routes>
     </div>

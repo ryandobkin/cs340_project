@@ -1,3 +1,7 @@
+const t_name = 'CustomerProducts';
+const t_id = 'customerProductID';
+
+
 // Load db config
 const db = require("../database/config.js");
 // Load .env variables
@@ -9,7 +13,7 @@ const lodash = require("lodash");
 const getCustomerProducts = async (req, res) => {
   try {
     // Select all rows from the "customerProducts" table
-    const query = "SELECT * FROM CustomerProducts";
+    const query = `SELECT * FROM ${t_name}`;
     // Execute the query using the "db" object from the configuration file
     const [rows] = await db.pool.query(query);
     // Send back the rows to the client
@@ -24,7 +28,7 @@ const getCustomerProducts = async (req, res) => {
 const getCustomerProductByID = async (req, res) => {
   try {
     const customerProductID = req.params.id;
-    const query = "SELECT * FROM CustomerProducts WHERE id = ?";
+    const query = `SELECT * FROM ${t_name} WHERE ${t_id} = ?`;
     const [result] = await db.pool.query(query, [customerProductID]);
     // Check if customerProduct was found
     if (result.length === 0) {
@@ -34,22 +38,24 @@ const getCustomerProductByID = async (req, res) => {
     res.json(customerProduct);
   } catch (error) {
     console.error("Error fetching customerProduct from the database:", error);
-    res.status(500).json({ error: "Error fetching person" });
+    res.status(500).json({ error: "Error fetching customer" });
   }
 };
 
 // Returns status of creation of new person in customerProduct
 const createCustomerProduct = async (req, res) => {
   try {
-    const { quantity, productID, membershipID, customerID } = req.body;
+    const { customerProductID, quantity, productID, membershipID, customerID } = req.body;
     const query =
-      "INSERT INTO customerProducts ( quantity, productID, membershipID, customerID) VALUES (?, ?, ?, ?, ?)";
+      `INSERT INTO ${t_name} ( customerProductID, customerID, productID, membershipID, quantity) 
+      VALUES (?, ?, ?, ?, ?)`;
 
     const response = await db.pool.query(query, [
-      quantity,
+      customerProductID,
+      customerID,
       productID,
       membershipID,
-      customerID,
+      quantity,
     ]);
     res.status(201).json(response);
   } catch (error) {
@@ -64,11 +70,12 @@ const createCustomerProduct = async (req, res) => {
 const updateCustomerProduct = async (req, res) => {
   // Get the customerProduct ID
   const customerProductID = req.params.id;
+  console.log("customerProductID", customerProductID);
   // Get the customerProduct object
   const newCustomerProduct = req.body;
 
   try {
-    const [data] = await db.pool.query("SELECT * FROM CustomerProducts WHERE id = ?", [
+    const [data] = await db.pool.query(`SELECT * FROM ${t_name} WHERE ${t_id} = ?`, [
       customerProductID,
     ]);
 
@@ -77,7 +84,7 @@ const updateCustomerProduct = async (req, res) => {
     // If any attributes are not equal, perform update
     if (!lodash.isEqual(newCustomerProduct, oldCustomerProduct)) {
       const query =
-        "UPDATE customerProducts SET quantity=?, productID=?, membershipID=?, customerID=?";
+        `UPDATE ${t_name} SET customerProductID=?, quantity=?, productID=?, membershipID=?, customerID=? WHERE ${t_id}=?`;
 
       // Homeoworld is NULL-able FK in people, has to be valid INT FK ID or NULL
       const pID = newCustomerProduct.productID === "" ? null : newCustomerProduct.productID;
@@ -85,15 +92,13 @@ const updateCustomerProduct = async (req, res) => {
       const cID = newCustomerProduct.customerID === "" ? null : newCustomerProduct.customerID;
 
       const values = [
+        newCustomerProduct.customerProductID,
         newCustomerProduct.quantity,
-        newCustomerProduct.productID,
-        newCustomerProduct.membershipID,
-        newCustomerProduct.customerID,
         pID,
         mID,
         cID,
-        customerProductID,
-      ];
+        customerProductID
+      ]
 
       // Perform the update
       await db.pool.query(query, values);
@@ -118,7 +123,7 @@ const deleteCustomerProduct = async (req, res) => {
   try {
     // Ensure the person exitst
     const [isExisting] = await db.pool.query(
-      "SELECT 1 FROM CustomerProducts WHERE id = ?",
+      `SELECT 1 FROM ${t_name} WHERE ${t_id} = ?`,
       [customerProductID]
     );
 
@@ -140,7 +145,7 @@ const deleteCustomerProduct = async (req, res) => {
     );
 */
     // Delete the person from customerProducts
-    await db.pool.query("DELETE FROM CustomerProducts WHERE id = ?", [customerProductID]);
+    await db.pool.query(`DELETE FROM ${t_name} WHERE ${t_id} = ?`, [customerProductID]);
 
     // Return the appropriate status code
     res.status(204).json({ message: "Person deleted successfully" })

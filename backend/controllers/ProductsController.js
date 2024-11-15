@@ -1,3 +1,6 @@
+const t_name = 'Products';
+const t_id = 'productID';
+
 // Load db config
 const db = require("../database/config.js");
 // Load .env variables
@@ -9,7 +12,7 @@ const lodash = require("lodash");
 const getProducts = async (req, res) => {
   try {
     // Select all rows from the "products" table
-    const query = "SELECT * FROM Products";
+    const query = `SELECT * FROM ${t_name}`;
     // Execute the query using the "db" object from the configuration file
     const [rows] = await db.pool.query(query);
     // Send back the rows to the client
@@ -24,7 +27,7 @@ const getProducts = async (req, res) => {
 const getProductByID = async (req, res) => {
   try {
     const productID = req.params.id;
-    const query = "SELECT * FROM Products WHERE id = ?";
+    const query = `SELECT * FROM ${t_name} WHERE ${t_id} = ?`;
     const [result] = await db.pool.query(query, [productID]);
     // Check if product was found
     if (result.length === 0) {
@@ -43,7 +46,7 @@ const createProduct = async (req, res) => {
   try {
     const { productID, productName, productPrice, productCost } = req.body;
     const query =
-      "INSERT INTO products (productID, productName, productPrice, productCost) VALUES (?, ?, ?, ?)";
+      `INSERT INTO ${t_name} (productID, productName, productPrice, productCost) VALUES (?, ?, ?, ?)`;
 
     const response = await db.pool.query(query, [
       productID,
@@ -68,7 +71,7 @@ const updateProduct = async (req, res) => {
   const newProduct = req.body;
 
   try {
-    const [data] = await db.pool.query("SELECT * FROM Products WHERE id = ?", [
+    const [data] = await db.pool.query(`SELECT * FROM ${t_name} WHERE ${t_id} = ?`, [
       productID,
     ]);
 
@@ -77,7 +80,7 @@ const updateProduct = async (req, res) => {
     // If any attributes are not equal, perform update
     if (!lodash.isEqual(newProduct, oldProduct)) {
       const query =
-        "UPDATE products SET productID=?, productName=?, productPrice=?, productCost=?";
+        `UPDATE ${t_name} SET productID=?, productName=?, productPrice=?, productCost=? WHERE ${t_id} = ?`;
 
       // Homeoworld is NULL-able FK in people, has to be valid INT FK ID or NULL
       //const hw = newProduct.homeworld === "" ? null : newPerson.homeworld;
@@ -113,7 +116,7 @@ const deleteProduct = async (req, res) => {
   try {
     // Ensure the person exitst
     const [isExisting] = await db.pool.query(
-      "SELECT 1 FROM Products WHERE id = ?",
+      `SELECT 1 FROM ${t_name} WHERE ${t_id} = ?`,
       [productID]
     );
 
@@ -135,7 +138,7 @@ const deleteProduct = async (req, res) => {
     );
 */
     // Delete the person from products
-    await db.pool.query("DELETE FROM Products WHERE id = ?", [productID]);
+    await db.pool.query(`DELETE FROM ${t_name} WHERE ${t_id} = ?`, [productID]);
 
     // Return the appropriate status code
     res.status(204).json({ message: "Person deleted successfully" })

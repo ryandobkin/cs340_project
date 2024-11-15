@@ -33,6 +33,7 @@ function CustomersPage() {
             RowComponent={TableRow}
             endpoint="Customers"
             entityName="Customers"
+            entityId="customerID"
           />
         }/>
         <Route path="/edit/:id" element={
@@ -40,6 +41,7 @@ function CustomersPage() {
             entityName="Customers"
             fields={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
             redirectPath="/Customers"
+            entityId="customerID"
         />}/>
       </Routes>
     </div>

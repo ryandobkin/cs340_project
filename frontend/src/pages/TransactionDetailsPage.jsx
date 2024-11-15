@@ -7,14 +7,14 @@ import UpdateEntity from "../components/reusable_comps/UpdateEntity";
 function TransactionDetailsPage() {
   return (
     <div>
-      <h1>TransactionDetails Page</h1>
+      <h1>Transaction Details Page</h1>
       <nav>
         <ul>
           <li>
-            <Link to="/transactionDetails">TransactionDetails Table</Link>
+            <Link to="/transactionDetails">Transaction Details Table</Link>
           </li>
           <li>
-            <Link to="/transactionDetails/add">Add TransactionDetails</Link>
+            <Link to="/transactionDetails/add">Add Transaction Details</Link>
           </li>
         </ul>
       </nav>
@@ -23,23 +23,25 @@ function TransactionDetailsPage() {
           <CreateEntity
             fields={["transactDetailsID", "transactID", "productID", "membershipID", "unitPrice", "orderQty", "orderTotal"]}
             labels={["Transact Details ID", "Transact ID", "Product ID", "Membership ID", "Unit Price", "Order Quantity", "Order Total"]}
-            formTitle="Create Customer"
-            endpoint="Customers"
+            formTitle="Create Transaction Details"
+            endpoint="TransactionDetails"
         />}/>
         <Route path="/" element={
           <EntityTable 
-            columns={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
-            labels={["Customer ID", "Membership ID", "Name", "Email", "Gender", "Mailing Address", "Billing Address", "City", "State", "Area Code"]}
+            columns={["transactDetailsID", "transactID", "productID", "membershipID", "unitPrice", "orderQty", "orderTotal"]}
+            labels={["Transact Details ID", "Transact ID", "Product ID", "Membership ID", "Unit Price", "Order Quantity", "Order Total"]}
             RowComponent={TableRow}
-            endpoint="Customers"
-            entityName="Customers"
+            endpoint="transactionDetails"
+            entityName="TransactionDetails"
+            entityId="transactDetailsID"
           />
         }/>
         <Route path="/edit/:id" element={
           <UpdateEntity
-            entityName="Customers"
-            fields={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
-            redirectPath="/Customers"
+            entityName="TransactionDetails"
+            fields={["transactDetailsID", "transactID", "productID", "membershipID", "unitPrice", "orderQty", "orderTotal"]}
+            redirectPath="/TransactionDetails"
+            entityId="transactDetailsID"
         />}/>
       </Routes>
     </div>

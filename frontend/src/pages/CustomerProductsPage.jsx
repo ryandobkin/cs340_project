@@ -16,9 +16,6 @@ function CustomerProductsPage() {
           <li>
             <Link to="/customerProducts/add">Add Customer Products</Link>
           </li>
-          <li>
-            <Link to="/customerProducts/edit/:id">Add Customer Products</Link>
-          </li>
         </ul>
       </nav>
       <Routes>
@@ -42,8 +39,7 @@ function CustomerProductsPage() {
         <Route path="/edit/:id" element={
           <UpdateEntity
             entityName="CustomerProducts"
-            fields={["customerProductID", "customerID", "productID", "membershipID", "quantity"
-            ]}
+            fields={["customerProductID", "customerID", "productID", "membershipID", "quantity"]}
             redirectPath="/CustomerProducts"
             entityId="customerProductID"
         />}/>
