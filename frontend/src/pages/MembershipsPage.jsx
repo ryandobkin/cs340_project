@@ -23,6 +23,7 @@ function MembershipsPage() {
           <CreateEntity
             fields={["membershipID", "membershipPrice", "renewPeriod", "gymAccess"]}
             labels={["Membership ID", "Membership Price", "Renew Period", "Gym Access"]}
+            pk="membershipID"
             formTitle="Create Membership"
             endpoint="Memberships"
         />}/>
@@ -39,6 +40,7 @@ function MembershipsPage() {
         <Route path="/edit/:id" element={
           <UpdateEntity
             entityName="Memberships"
+            pk="membershipID"
             fields={["membershipID", "membershipPrice", "renewPeriod", "gymAccess"]}
             redirectPath="/Memberships"
             entityId="membershipID"

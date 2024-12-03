@@ -23,7 +23,8 @@ function ProductsPage() {
           <CreateEntity
             fields={["productID", "productName", "productPrice", "productCost"]}
             labels={["Product ID", "Product Name", "Product Price", "Product Cost"]}
-            formTitle="Create Membership"
+            pk = "productID"
+            formTitle="Create Product"
             endpoint="Products"
         />}/>
         <Route path="/" element={
@@ -39,6 +40,7 @@ function ProductsPage() {
         <Route path="/edit/:id" element={
           <UpdateEntity
             entityName="Products"
+            pk = "productID"
             fields={["productID", "productName", "productPrice", "productCost"]}
             redirectPath="/Products"
             entityId="productID"

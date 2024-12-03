@@ -3,8 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import '../../App.css';
+import DropdownElement from './DropdownElement';
 
-const UpdateEntity = ({ entityName, fields, redirectPath, entityId }) => {
+const UpdateEntity = ({ entityName, fields, redirectPath, entityId, fkConfig, pk }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,18 +67,37 @@ const UpdateEntity = ({ entityName, fields, redirectPath, entityId }) => {
     <div className="update-form-container">
       <h2 className="update-form-title">Update {entityName}</h2>
       <form onSubmit={handleSubmit}>
-        {fields.map((field) => (
-            <div key={field} className="update-form-field">
+        {fields.map((field) => {
+           const fk = fkConfig ? fkConfig.find((fk) => fk.fKey === field) : null;
+          //console.log("fk, fk.fKey, field", fk, (fk) => fk.fKey, field);
+          if (fk) {
+            // If FK, render dropdown
+            return (
+              <div key={field} className="update-form-field">
                 <label>{field}:</label>
-                <input
-                    type="text"
-                    name={field}
-                    value={formData[field]}
-                    onChange={handleInputChange}
-                    required
+                <DropdownElement
+                  key={field}
+                  foreignKey={fk.fKey}
+                  referencedTable={fk.refTable}
+                  referencedColumn={fk.refColumn}
+                  formData={formData}
+                  setFormData={setFormData}
                 />
-            </div>
-        ))}
+              </div>
+            );
+          }
+          return (
+          <div key={field} className="update-form-field">
+              <label>{field}:</label>
+                <input
+                  type="text"
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleInputChange}
+                  readOnly={field === pk}
+                />
+          </div>
+      )})}
         <button type="button" onClick={() => navigate(redirectPath)} className="cancel-button">
           Cancel
         </button>

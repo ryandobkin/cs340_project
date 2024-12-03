@@ -23,6 +23,14 @@ function TransactionsPage() {
           <CreateEntity
             fields={["transactID", "customerID", "transactDate", "transactTotal"]}
             labels={["Transaction ID", "Customer ID", "Transaction Date", "Transaction Total"]}
+            fkConfig = {[
+              {
+                fKey: "customerID",
+                refTable: "Customers",
+                refColumn: "customerID"
+              }
+            ]}
+            pk = "transactID"
             formTitle="Create Transactions"
             endpoint="Transactions"
         />}/>
@@ -39,6 +47,14 @@ function TransactionsPage() {
         <Route path="/edit/:id" element={
           <UpdateEntity
             entityName="Transactions"
+            fkConfig = {[
+              {
+                fKey: "customerID",
+                refTable: "Customers",
+                refColumn: "customerID"
+              }
+            ]}
+            pk = "transactID"
             fields={["transactID", "customerID", "transactDate", "transactTotal"]}
             redirectPath="/Transactions"
             entityId="transactID"

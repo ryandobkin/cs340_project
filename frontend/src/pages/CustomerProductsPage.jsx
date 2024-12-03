@@ -22,6 +22,24 @@ function CustomerProductsPage() {
         <Route path="/add" element={
           <CreateEntity
             fields={["customerProductID", "customerID", "productID", "membershipID", "quantity"]}
+            fkConfig = {[
+              {
+                fKey: "customerID",
+                refTable: "Customers",
+                refColumn: "customerID"
+              },
+              {
+                fKey: "productID",
+                refTable: "Products",
+                refColumn: "productID"
+              },
+              {
+                fKey: "membershipID",
+                refTable: "Memberships",
+                refColumn: "membershipID"
+              }
+            ]}
+            pk = "customerProductID"
             labels={["Customer Product ID", "Customer ID", "Product ID", "Membership ID", "Quantity"]}
             formTitle="Create Customer Product"
             endpoint="CustomerProducts"
@@ -40,6 +58,24 @@ function CustomerProductsPage() {
           <UpdateEntity
             entityName="CustomerProducts"
             fields={["customerProductID", "customerID", "productID", "membershipID", "quantity"]}
+            fkConfig = {[
+              {
+                fKey: "customerID",
+                refTable: "Customers",
+                refColumn: "customerID"
+              },
+              {
+                fKey: "productID",
+                refTable: "Products",
+                refColumn: "productID"
+              },
+              {
+                fKey: "membershipID",
+                refTable: "Memberships",
+                refColumn: "membershipID"
+              }
+            ]}
+            pk = "customerProductID"
             redirectPath="/CustomerProducts"
             entityId="customerProductID"
         />}/>

@@ -13,6 +13,7 @@ import Navbar from "./components/navbar/NavBar";
 function App() {
   return (
     <div className="bg">
+      <div className="content">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -23,6 +24,8 @@ function App() {
         <Route path="/Transactions/*" element={<TransactionsPage />} />
         <Route path="/TransactionDetails/*" element={<TransactionDetailsPage />} />
       </Routes>
+      </div>
+      <footer className="footer"><p>&#169; Ashwin Nathan | Ryan Dobkin</p></footer>
     </div>
   );
 }

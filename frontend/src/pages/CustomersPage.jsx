@@ -23,6 +23,14 @@ function CustomersPage() {
           <CreateEntity
             fields={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
             labels={["Customer ID", "Membership ID", "Name", "Email", "Gender", "Mailing Address", "Billing Address", "City", "State", "Area Code"]}
+            fkConfig = {[
+              {
+                fKey: "membershipID",
+                refTable: "Memberships",
+                refColumn: "membershipID"
+              }
+            ]}
+            pk="customerID"
             formTitle="Create Customer"
             endpoint="Customers"
         />}/>
@@ -40,6 +48,14 @@ function CustomersPage() {
           <UpdateEntity
             entityName="Customers"
             fields={["customerID", "membershipID", "name", "email", "gender", "mailAddr", "billAddr", "city", "state", "areaCode"]}
+            fkConfig = {[
+              {
+                fKey: "membershipID",
+                refTable: "Memberships",
+                refColumn: "membershipID"
+              }
+            ]}
+            pk="customerID"
             redirectPath="/Customers"
             entityId="customerID"
         />}/>

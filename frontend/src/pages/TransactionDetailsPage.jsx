@@ -23,6 +23,24 @@ function TransactionDetailsPage() {
           <CreateEntity
             fields={["transactDetailsID", "transactID", "productID", "membershipID", "unitPrice", "orderQty", "orderTotal"]}
             labels={["Transact Details ID", "Transact ID", "Product ID", "Membership ID", "Unit Price", "Order Quantity", "Order Total"]}
+            fkConfig = {[
+              {
+                fKey: "transactID",
+                refTable: "Transactions",
+                refColumn: "transactID"
+              },
+              {
+                fKey: "productID",
+                refTable: "Products",
+                refColumn: "productID"
+              },
+              {
+                fKey: "membershipID",
+                refTable: "Memberships",
+                refColumn: "membershipID"
+              }
+            ]}
+            pk = "transactDetailsID"
             formTitle="Create Transaction Details"
             endpoint="TransactionDetails"
         />}/>
@@ -39,6 +57,24 @@ function TransactionDetailsPage() {
         <Route path="/edit/:id" element={
           <UpdateEntity
             entityName="TransactionDetails"
+            fkConfig = {[
+              {
+                fKey: "transactID",
+                refTable: "Transactions",
+                refColumn: "transactID"
+              },
+              {
+                fKey: "productID",
+                refTable: "Products",
+                refColumn: "productID"
+              },
+              {
+                fKey: "membershipID",
+                refTable: "Memberships",
+                refColumn: "membershipID"
+              }
+            ]}
+            pk = "transactDetailsID"
             fields={["transactDetailsID", "transactID", "productID", "membershipID", "unitPrice", "orderQty", "orderTotal"]}
             redirectPath="/TransactionDetails"
             entityId="transactDetailsID"

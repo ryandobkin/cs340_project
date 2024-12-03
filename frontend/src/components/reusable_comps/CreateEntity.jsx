@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../../App.css';
+import DropdownElement from "../reusable_comps/DropdownElement";
 
-function CreateEntity({ fields, labels, formTitle, endpoint }) {
+function CreateEntity({ fields, labels, formTitle, endpoint, fkConfig, pk }) {
   const navigate = useNavigate();
   const initialEntityData = fields.reduce((acc, field) => {
     acc[field] = "";
@@ -33,7 +34,7 @@ function CreateEntity({ fields, labels, formTitle, endpoint }) {
   };
 
   const resetFormFields = () => {
-    setFormData(initialFormData);
+    setFormData("");
   };
 
   const handleInputChange = (e) => {
@@ -48,21 +49,37 @@ function CreateEntity({ fields, labels, formTitle, endpoint }) {
     <div className="form-container">
       <h2 className="form-title">{formTitle}</h2>
       <form onSubmit={handleSubmit}>
-        {fields.map((field, index) => (
+        {fields.map((field, index) => {
+          const fk = fkConfig ? fkConfig.find((fk) => fk.fKey === field) : null;
+
+          return (
             <div key={field} className="form-field">
                 <label htmlFor={field}>{labels[index]}</label>
-                <input
+                { !fk ? (
+                  <input
                     type="text"
                     name={field}
-                    defaultValue={formData[field]}
+                    defaultValue={pk === field ? "AUTO_INCREMENT" : formData[field] || ""}
                     onChange={handleInputChange}
+                    readOnly={pk === field}
+                  />
+                ) : (
+                  <DropdownElement
+                    key={field}
+                    foreignKey={fk.fKey}
+                    referencedTable={fk.refTable}
+                    referencedColumn={fk.refColumn}
+                    formData={formData}
+                    setFormData={setFormData}
                 />
+                )}
             </div>
-        ))}
+          );
+        })}
         <button type="submit" className="form-button">Create Entry</button>
       </form>
     </div>
   );
-}
+};
 
 export default CreateEntity;
